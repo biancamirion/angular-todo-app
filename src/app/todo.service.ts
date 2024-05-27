@@ -11,6 +11,10 @@ export class TodoService {
     return this.todos;
   }
 
+  getTodoById(id: number) {
+    return this.todos.find((todo) => todo.id === id);
+  }
+
   addTodo(todo: Todo) {
     const newTodo: Todo = {
       id: this.todos.length + 1,
@@ -25,9 +29,14 @@ export class TodoService {
     this.todos[index].completed = !this.todos[index].completed;
   }
 
+  updateTodo(updatedTodo: Todo | undefined) {
+    const index = this.todos.findIndex((todo) => todo.id === updatedTodo?.id);
+    if (index > -1) {
+      this.todos[index] = updatedTodo as Todo;
+    }
+  }
+
   deleteTodo(todo: Todo) {
-    console.log('todo', todo);
-    
     const index = this.todos.indexOf(todo);
     this.todos.splice(index, 1);
   }

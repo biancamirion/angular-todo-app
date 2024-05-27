@@ -1,0 +1,33 @@
+.main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #fafed3
+}
+
+h1 {
+    color: #333701;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    background-color: #f8fdbb;
+    height: 80%;
+}
+
+.divider {
+    width: 1px;
+    margin: 0 20px;
+    height: 100%;
+    background-color: #252700;
+}
+
+app-add-todo,
+app-todo-list {
+    width: 45%;
+}

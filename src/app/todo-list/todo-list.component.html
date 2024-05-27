@@ -1,7 +1,8 @@
 <ul>
     <li *ngFor="let todo of todos">
         <input type="checkbox" [checked]="todo.completed" (click)="toggleTodoComplete(todo)" />
-        <span>{{ todo.title }}</span>
+        <input type="text" disabled [(ngModel)]="todo.title" />
         <button (click)="deleteTodo(todo)">Delete</button>
+        <button (click)="navigateToDetails(todo)">Edit</button>
     </li>
 </ul>

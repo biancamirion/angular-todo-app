@@ -1,0 +1,15 @@
+<main class="main">
+    <a [routerLink]="['/']">
+        <h1>Hello to your to-do app!</h1>
+    </a>
+
+    <div class="content">
+        <app-add-todo></app-add-todo>
+        <div *ngIf="todos.length > 0" class="divider"></div>
+        <app-todo-list></app-todo-list>
+    </div>
+
+
+    <router-outlet></router-outlet>
+
+</main>
