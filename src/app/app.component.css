@@ -1,0 +1,23 @@
+.main {
+    background-color: #ebebeb;
+    height: 100vh;
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #fb6342;
+}
+
+a:visited {
+    color: #fb6342;
+}
+
+.divider {
+    width: 1px;
+    margin: 0 20px;
+    background-color: #e9aa2b;
+}

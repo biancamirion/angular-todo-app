@@ -20,11 +20,11 @@ input[type="text"] {
     margin: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%
+    width: 100%;
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #e9aa2b;
     color: white;
     padding: 14px 20px;
     margin: 8px;

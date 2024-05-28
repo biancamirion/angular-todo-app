@@ -9,7 +9,12 @@ import { Todo } from '../todo';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, TodoListComponent, AddTodoComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TodoListComponent,
+    AddTodoComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
