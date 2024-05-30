@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'todos',
     component: HomeComponent,
     title: 'Todo List',
   },

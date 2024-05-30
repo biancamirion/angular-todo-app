@@ -13,7 +13,7 @@ import { Todo } from '../todo';
   styleUrl: './todo-item.component.css',
 })
 export class TodoItemComponent implements OnInit {
-  todo: Todo | undefined;
+  todo: Todo | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,12 +22,19 @@ export class TodoItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id')!;
-    this.todo = this.todoService.getTodoById(id);
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.todoService.getTodoById(id).subscribe((todo: Todo) => {
+      this.todo = todo;
+    });
   }
 
   updateTodo(todo: Todo) {
-    this.todoService.updateTodo(this.todo);
-    this.router.navigate(['/']);
+    this.todoService.updateTodo(todo).subscribe(() => {
+      this.router.navigate(['todos']);
+    });
+  }
+
+  toggleTodoCompleted(todo: Todo) {
+    this.todoService.toggleTodoCompleted(todo).subscribe();
   }
 }

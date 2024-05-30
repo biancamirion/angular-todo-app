@@ -1,6 +1,7 @@
 <main class="main">
     <div class="content" *ngIf="todo as currentTodo">
-        <input [(ngModel)]="currentTodo.title" />
-        <button *ngIf="todo" (click)="updateTodo(todo)">Update</button>
+        <input type="checkbox" [checked]="currentTodo.completed" (click)="toggleTodoCompleted(currentTodo)" />
+        <input type="text" [(ngModel)]="currentTodo.title" />
+        <button *ngIf="currentTodo" (click)="updateTodo(currentTodo)">Update</button>
     </div>
 </main>

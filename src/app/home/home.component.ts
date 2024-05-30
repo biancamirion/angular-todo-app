@@ -9,12 +9,7 @@ import { Todo } from '../todo';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    TodoListComponent,
-    AddTodoComponent,
-  ],
+  imports: [CommonModule, RouterModule, TodoListComponent, AddTodoComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -24,6 +19,12 @@ export class HomeComponent implements OnInit {
   constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
-    this.todos = this.todoService.getTodos();
+    this.todoService.getTodos().subscribe((todos) => {
+      this.todos = todos;
+    });
+
+    this.todoService.getTodosUpdatedListener().subscribe((todos) => {
+      this.todos = todos;
+    });
   }
 }

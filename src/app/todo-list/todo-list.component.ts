@@ -13,22 +13,39 @@ import { Todo } from '../todo';
   styleUrl: './todo-list.component.css',
 })
 export class TodoListComponent implements OnInit {
-  todos: Todo[] = this.todoService.getTodos();
+  todos: Todo[] = [];
 
   constructor(private todoService: TodoService, private router: Router) {}
 
   ngOnInit(): void {
-    this.todos = this.todoService.getTodos();
+    this.todoService.getTodos().subscribe((todos) => {
+      this.todos = todos;
+    });
+
+    this.todoService.getTodosUpdatedListener().subscribe((todos) => {
+      this.todos = todos;
+    });
   }
 
-  toggleTodoComplete(todo: Todo) {
-    this.todoService.toggleTodoComplete(todo);
+  updateTodo(todo: Todo) {
+    todo.completed = !todo.completed;
+    this.todoService.updateTodo(todo).subscribe();
   }
 
-  deleteTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo);
+  toggleTodoCompleted(todo: Todo) {
+    this.todoService.toggleTodoCompleted(todo).subscribe();
   }
+
+  deleteTodo(id: string): void {
+    this.todoService.deleteTodo(id).subscribe({
+      next: () => {
+        this.todos = this.todos.filter((todo) => todo._id !== id);
+      },
+      error: (err) => console.error('Error deleting todo:', err),
+    });
+  }
+
   navigateToDetails(todo: Todo) {
-    this.router.navigate(['/details', todo.id]);
+    this.router.navigate(['/details', todo._id]);
   }
 }

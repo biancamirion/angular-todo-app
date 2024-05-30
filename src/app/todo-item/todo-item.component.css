@@ -3,16 +3,15 @@
 }
 
 .content {
-    display: flex;
+ 
     padding: 35px;
 }
-
-input {
+input[type="text"] {
     padding: 12px 20px;
     margin: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 80%
+    width: 80%;
 }
 
 button {

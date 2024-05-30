@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Todo } from './todo';
 
 @Injectable({
@@ -6,38 +9,57 @@ import { Todo } from './todo';
 })
 export class TodoService {
   todos: Todo[] = [];
+  private apiUrl = 'http://localhost:3000/todos';
+  private todosUpdated = new Subject<Todo[]>();
 
-  getTodos() {
-    return this.todos;
+  constructor(private http: HttpClient) {}
+
+  getTodos(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(this.apiUrl);
   }
 
-  getTodoById(id: number) {
-    return this.todos.find((todo) => todo.id === id);
+  getTodosUpdatedListener(): Observable<Todo[]> {
+    return this.todosUpdated.asObservable();
   }
 
-  addTodo(todo: Todo) {
-    const newTodo: Todo = {
-      id: this.todos.length + 1,
-      title: todo.title,
-      completed: false,
-    };
-    this.todos.push(newTodo);
+  getTodoById(id: string): Observable<Todo> {
+    return this.http.get<Todo>(`${this.apiUrl}/${id}`);
   }
 
-  toggleTodoComplete(todo: Todo) {
-    const index = this.todos.indexOf(todo);
-    this.todos[index].completed = !this.todos[index].completed;
+  addTodo(todo: Todo): Observable<Todo> {
+    return this.http.post<Todo>(this.apiUrl, todo).pipe(
+      tap(() => {
+        this.getTodos().subscribe((todos) => {
+          this.todosUpdated.next(todos);
+        });
+      })
+    );
   }
 
-  updateTodo(updatedTodo: Todo | undefined) {
-    const index = this.todos.findIndex((todo) => todo.id === updatedTodo?.id);
-    if (index > -1) {
-      this.todos[index] = updatedTodo as Todo;
-    }
+  updateTodo(updatedTodo: Partial<Todo>): Observable<Todo> {
+    return this.http
+      .put<Todo>(`${this.apiUrl}/${updatedTodo._id}`, updatedTodo)
+      .pipe(
+        tap(() => {
+          this.getTodos().subscribe((todos) => {
+            this.todosUpdated.next(todos);
+          });
+        })
+      );
   }
 
-  deleteTodo(todo: Todo) {
-    const index = this.todos.indexOf(todo);
-    this.todos.splice(index, 1);
+  toggleTodoCompleted(todo: Todo): Observable<Todo> {
+    todo.completed = !todo.completed;
+    return this.updateTodo(todo);
+  }
+
+  deleteTodo(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        this.getTodos().subscribe((todos) => {
+          this.todosUpdated.next(todos);
+        });
+      })
+    );
   }
 }
